@@ -2,7 +2,7 @@
   "documents":[
     {
       "title":"User Guide",
-      "publication date":"2020-01-01T01:00:00Z",
+      "publication_date":"2020-01-01T01:00:00Z",
       "priority":1,
       "origin":"gov",
       "tags":[
@@ -11,7 +11,7 @@
     },
     {
       "title":"Technical manual A",
-      "publication date":"2012-05-01T01:00:00Z",
+      "publication_date":"2012-05-01T01:00:00Z",
       "priority":2,
       "origin":"private",
       "tags":[
@@ -21,19 +21,19 @@
     },
     {
       "title":"Specification XYZ",
-      "publication date":"2018-12-01T01:00:00Z",
+      "publication_date":"2018-12-01T01:00:00Z",
       "priority":2,
       "origin":"private"
     },
     {
       "title":"Equipment List",
-      "publication date":"1995-03-30T01:00:00Z",
+      "publication_date":"1995-03-30T01:00:00Z",
       "priority":3,
       "origin":"private"
     },
     {
       "title":"Organizational History",
-      "publication date":"1970-03-30T01:00:00Z",
+      "publication_date":"1970-03-30T01:00:00Z",
       "priority":3,
       "origin":"gov"
     },

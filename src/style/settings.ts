@@ -15,15 +15,22 @@ export enum Layout {
   BORDER_RADIUS = 4
 }
 
+const header = {
+  fontWeight: '700' as TextStyle['fontWeight'],
+  paddingVertical: Gutter.REGULAR
+};
+
 export const typography = {
   h1: {
-    fontSize: 24,
-    fontWeight: '700' as TextStyle['fontWeight'],
-    paddingVertical: Gutter.REGULAR
+    ...header,
+    fontSize: 24
   },
   h2: {
-    fontSize: 20,
-    fontWeight: '700' as TextStyle['fontWeight'],
-    paddingVertical: Gutter.REGULAR
+    ...header,
+    fontSize: 20
+  },
+  h3: {
+    ...header,
+    fontSize: 18
   }
 };

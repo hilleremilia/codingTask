@@ -1,11 +1,20 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  ListRenderItem,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { Gutter, typography } from '../style/settings';
 import { useFetchData } from '../hooks/useFetchData';
+import { Document } from '../types/documents';
+import { ListItem } from './ListItem';
 
 const URL = 'http://localhost:3000/documents';
 
 export const List = () => {
-  const { loading, error, data } = useFetchData(URL);
+  const { loading, error, data } = useFetchData<Document[]>(URL);
 
   if (loading) {
     return <ActivityIndicator style={styles.container} />;
@@ -19,9 +28,19 @@ export const List = () => {
     );
   }
 
+  const renderListItem: ListRenderItem<Document> = ({ item, index }) => (
+    <ListItem
+      document={item}
+      showBottomBorder={index + 1 !== data?.length}
+      key={item.title}
+    />
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Documents</Text>
+
+      <FlatList data={data} renderItem={renderListItem} />
     </View>
   );
 };
