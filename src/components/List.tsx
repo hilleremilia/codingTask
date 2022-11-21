@@ -10,11 +10,24 @@ import { Gutter, typography } from '../style/settings';
 import { useFetchData } from '../hooks/useFetchData';
 import { Document } from '../types/documents';
 import { ListItem } from './ListItem';
+import { keys, SortDirection, useSort } from '../hooks/useSort';
+import { useState } from 'react';
+import { ToggleButton } from './ToggleButton';
+import { useFilter } from '../hooks/useFilter';
+import { TextInputField } from './TextInputField';
 
 const URL = 'http://localhost:3000/documents';
 
 export const List = () => {
+  const [sortKey, setSortKey] = useState('origin');
+  const [filterValue, setFilterValue] = useState('');
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    SortDirection.ASC
+  );
+
   const { loading, error, data } = useFetchData<Document[]>(URL);
+  const { sortedData } = useSort(sortDirection, sortKey, data);
+  const { filteredData } = useFilter(filterValue, sortedData);
 
   if (loading) {
     return <ActivityIndicator style={styles.container} />;
@@ -36,11 +49,58 @@ export const List = () => {
     />
   );
 
+  const renderKeys = () =>
+    keys.map((key) => (
+      <ToggleButton
+        title={key}
+        key={key}
+        isActive={sortKey === key}
+        id={key}
+        onPress={onSortKeyPress}
+      />
+    ));
+
+  const onSortDirectionPress = (id: SortDirection) => {
+    setSortDirection(id);
+  };
+
+  const onSortKeyPress = (id: string) => {
+    setSortKey(id);
+  };
+
+  const onInputValueChange = (value: string) => {
+    setFilterValue(value);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Documents</Text>
 
-      <FlatList data={data} renderItem={renderListItem} />
+      <Text style={styles.sectionHeader}>Sort</Text>
+      <Text>Direction</Text>
+
+      <View style={styles.buttonContainer}>
+        <ToggleButton
+          title="Ascending"
+          isActive={sortDirection === SortDirection.ASC}
+          id={SortDirection.ASC}
+          onPress={onSortDirectionPress}
+        />
+        <ToggleButton
+          title="Descending"
+          isActive={sortDirection === SortDirection.DESC}
+          id={SortDirection.DESC}
+          onPress={onSortDirectionPress}
+        />
+      </View>
+
+      <Text>Key</Text>
+      <View style={styles.buttonContainer}>{renderKeys()}</View>
+
+      <Text style={styles.sectionHeader}>Find by title</Text>
+      <TextInputField onChangeText={onInputValueChange} />
+
+      <FlatList data={filteredData} renderItem={renderListItem} />
     </View>
   );
 };
@@ -59,5 +119,9 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     ...typography.h2
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 });

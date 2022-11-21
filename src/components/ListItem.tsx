@@ -15,7 +15,7 @@ export const ListItem: FC<Props> = ({
 }) => {
   const renderTags = () =>
     tags.map((tag, index) => (
-      <Text>
+      <Text key={tag}>
         {tag}
         {index + 1 !== tags.length ? ', ' : ''}
       </Text>

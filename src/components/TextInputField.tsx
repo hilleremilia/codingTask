@@ -3,7 +3,7 @@ import { StyleSheet, TextInput } from 'react-native';
 import { Gutter, Layout } from '../style/settings';
 
 interface Props {
-  onChangeText: () => void;
+  onChangeText: (value: string) => void;
   text?: string;
 }
 
