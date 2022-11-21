@@ -30,8 +30,9 @@ export const ToggleButton = <T extends unknown>({
 const styles = StyleSheet.create({
   button: {
     borderWidth: Layout.BORDER_WIDTH,
-    padding: Gutter.REGULAR,
-    marginVertical: Gutter.REGULAR,
+    paddingHorizontal: Gutter.REGULAR,
+    paddingVertical: Gutter.SMALL,
+    marginVertical: Gutter.SMALL,
     borderRadius: Layout.BORDER_RADIUS,
     marginRight: Gutter.REGULAR
   },

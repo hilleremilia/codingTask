@@ -1,6 +1,7 @@
 import { TextStyle } from 'react-native';
 
 export enum Gutter {
+  SMALL = 4,
   REGULAR = 8,
   FULL = 16,
   OUTER = 24

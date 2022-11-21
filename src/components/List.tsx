@@ -76,8 +76,12 @@ export const List = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Documents</Text>
 
+      <TextInputField
+        onChangeText={onInputValueChange}
+        placeholder="Find by title"
+      />
+
       <Text style={styles.sectionHeader}>Sort</Text>
-      <Text>Direction</Text>
 
       <View style={styles.buttonContainer}>
         <ToggleButton
@@ -94,11 +98,7 @@ export const List = () => {
         />
       </View>
 
-      <Text>Key</Text>
       <View style={styles.buttonContainer}>{renderKeys()}</View>
-
-      <Text style={styles.sectionHeader}>Find by title</Text>
-      <TextInputField onChangeText={onInputValueChange} />
 
       <FlatList data={filteredData} renderItem={renderListItem} />
     </View>
