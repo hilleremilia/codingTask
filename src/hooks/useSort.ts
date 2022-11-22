@@ -6,13 +6,16 @@ export enum SortDirection {
   DESC = 'desc'
 }
 
-export const keys = ['origin', 'priority'];
+export enum SortKeys {
+  ORIGIN = 'origin',
+  PRIORITY = 'priority'
+}
 
-export function useSort(
-  sortDirection: SortDirection,
-  sortKey: string,
-  data?: Document[]
-) {
+export function useSort(data?: Document[]) {
+  const [sortKey, setSortKey] = useState(SortKeys.ORIGIN);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    SortDirection.ASC
+  );
   const [sortedData, setSortedData] = useState<Document[] | undefined>(data);
 
   useEffect(() => {
@@ -20,7 +23,7 @@ export function useSort(
     const dataToSort = [...data];
     const isAscending = sortDirection === SortDirection.ASC;
 
-    if (sortKey === 'origin') {
+    if (sortKey === SortKeys.ORIGIN) {
       setSortedData(
         dataToSort?.sort((a, b) => {
           if (!a.origin) return 1;
@@ -43,6 +46,10 @@ export function useSort(
   }, [data, sortKey, sortDirection]);
 
   return {
-    sortedData
+    sortedData,
+    sortDirection,
+    setSortDirection,
+    sortKey,
+    setSortKey
   };
 }

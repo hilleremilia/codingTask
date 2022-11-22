@@ -10,24 +10,25 @@ import { Gutter, typography } from '../style/settings';
 import { useFetchData } from '../hooks/useFetchData';
 import { Document } from '../types/documents';
 import { ListItem } from './ListItem';
-import { keys, SortDirection, useSort } from '../hooks/useSort';
-import { useState } from 'react';
+import { SortDirection, SortKeys, useSort } from '../hooks/useSort';
 import { ToggleButton } from './ToggleButton';
 import { useFilter } from '../hooks/useFilter';
 import { TextInputField } from './TextInputField';
+import { useTagNames } from '../hooks/useTagNames';
+import { useTags } from '../hooks/useTags';
 
 const URL = 'http://localhost:3000/documents';
 
-export const List = () => {
-  const [sortKey, setSortKey] = useState('origin');
-  const [filterValue, setFilterValue] = useState('');
-  const [sortDirection, setSortDirection] = useState<SortDirection>(
-    SortDirection.ASC
-  );
+const keys = [SortKeys.ORIGIN, SortKeys.PRIORITY];
 
+export const List = () => {
   const { loading, error, data } = useFetchData<Document[]>(URL);
-  const { sortedData } = useSort(sortDirection, sortKey, data);
-  const { filteredData } = useFilter(filterValue, sortedData);
+  const { tagNames } = useTagNames(data);
+  const { sortedData, setSortDirection, sortDirection, sortKey, setSortKey } =
+    useSort(data);
+  const { filteredData, setFilterValue } = useFilter(sortedData);
+  const { selectedData, manageTags, checkTagExists, tags } =
+    useTags(filteredData);
 
   if (loading) {
     return <ActivityIndicator style={styles.container} />;
@@ -49,7 +50,7 @@ export const List = () => {
     />
   );
 
-  const renderKeys = () =>
+  const renderSortKeys = () =>
     keys.map((key) => (
       <ToggleButton
         title={key}
@@ -60,11 +61,26 @@ export const List = () => {
       />
     ));
 
+  const renderTags = () =>
+    tagNames.map((key) => (
+      <ToggleButton
+        title={key}
+        key={key}
+        isActive={tags && checkTagExists(key, tags)}
+        id={key}
+        onPress={onTagPress}
+      />
+    ));
+
+  const onTagPress = (tag: string) => {
+    manageTags(tag);
+  };
+
   const onSortDirectionPress = (id: SortDirection) => {
     setSortDirection(id);
   };
 
-  const onSortKeyPress = (id: string) => {
+  const onSortKeyPress = (id: SortKeys) => {
     setSortKey(id);
   };
 
@@ -98,14 +114,17 @@ export const List = () => {
         />
       </View>
 
-      <View style={styles.buttonContainer}>{renderKeys()}</View>
+      <View style={styles.buttonContainer}>{renderSortKeys()}</View>
 
-      {!filteredData?.length ? (
+      <Text style={styles.sectionHeader}>Select tags</Text>
+      <View style={styles.buttonContainer}>{renderTags()}</View>
+
+      {!selectedData?.length ? (
         <View style={[styles.container, styles.error]}>
           <Text>There are no documents found.</Text>
         </View>
       ) : (
-        <FlatList data={filteredData} renderItem={renderListItem} />
+        <FlatList data={selectedData} renderItem={renderListItem} />
       )}
     </View>
   );

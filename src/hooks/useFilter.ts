@@ -1,14 +1,15 @@
 import { Document } from '../types/documents';
 import { useEffect, useState } from 'react';
 
-export const useFilter = (value: string, data?: Document[]) => {
+export const useFilter = (data?: Document[]) => {
   const [filteredData, setFilteredData] = useState<Document[]>();
+  const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    if (value) {
+    if (filterValue) {
       setFilteredData(
         data?.filter((document) =>
-          document.title.toLowerCase().includes(value.toLowerCase())
+          document.title.toLowerCase().includes(filterValue.toLowerCase())
         )
       );
 
@@ -16,9 +17,10 @@ export const useFilter = (value: string, data?: Document[]) => {
     }
 
     setFilteredData(data);
-  }, [data, value]);
+  }, [data, filterValue]);
 
   return {
-    filteredData
+    filteredData,
+    setFilterValue
   };
 };

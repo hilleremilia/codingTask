@@ -9,12 +9,14 @@ interface Props {
   document: Document;
 }
 
+const DATE_FORMAT = 'DD.MM.YYYY';
+
 export const ListItem: FC<Props> = ({
   showBottomBorder,
   document: { title, publication_date, priority, origin, tags }
 }) => {
   const renderTags = () =>
-    tags.map((tag, index) => (
+    tags?.map((tag, index) => (
       <Text key={tag}>
         {tag}
         {index + 1 !== tags.length ? ', ' : ''}
@@ -31,7 +33,7 @@ export const ListItem: FC<Props> = ({
 
       {!!publication_date && (
         <Text>{`Published at: ${moment(publication_date).format(
-          'DD.MM.YYYY'
+          DATE_FORMAT
         )}`}</Text>
       )}
 
