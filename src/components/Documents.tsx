@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -25,7 +25,7 @@ const URL =
 
 const keys = [SortKeys.ORIGIN, SortKeys.PRIORITY];
 
-export const Documents = () => {
+export const Documents: FC = () => {
   const { loading, error, data } = useFetchData<Document[]>(URL);
   const { tagNames } = useTagNames(data);
   const { sortedData, setSortDirection, sortDirection, sortKey, setSortKey } =
