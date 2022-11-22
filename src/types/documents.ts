@@ -3,5 +3,5 @@ export interface Document {
   publication_date?: string;
   priority: number;
   origin?: string;
-  tags: string[];
+  tags?: string[];
 }
