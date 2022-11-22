@@ -100,7 +100,13 @@ export const List = () => {
 
       <View style={styles.buttonContainer}>{renderKeys()}</View>
 
-      <FlatList data={filteredData} renderItem={renderListItem} />
+      {!filteredData?.length ? (
+        <View style={[styles.container, styles.error]}>
+          <Text>There are no documents found.</Text>
+        </View>
+      ) : (
+        <FlatList data={filteredData} renderItem={renderListItem} />
+      )}
     </View>
   );
 };
