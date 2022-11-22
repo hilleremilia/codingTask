@@ -1,12 +1,12 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
-import { List } from './src/components/List';
+import { Documents } from './src/components/Documents';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
-      <List />
+      <Documents />
     </SafeAreaView>
   );
 };

@@ -26,6 +26,16 @@ export const ListItem: FC<Props> = ({
     [tags]
   );
 
+  const renderPublicationDate = useMemo(
+    () =>
+      !!publication_date && (
+        <Text>{`Published at: ${moment(publication_date).format(
+          DATE_FORMAT
+        )}`}</Text>
+      ),
+    [publication_date]
+  );
+
   return (
     <View
       style={[styles.container, showBottomBorder ? styles.borderBottom : []]}
@@ -34,11 +44,7 @@ export const ListItem: FC<Props> = ({
 
       <Text>{`Priority: ${priority}`}</Text>
 
-      {!!publication_date && (
-        <Text>{`Published at: ${moment(publication_date).format(
-          DATE_FORMAT
-        )}`}</Text>
-      )}
+      {renderPublicationDate}
 
       {!!origin && <Text>{`Origin: ${origin}`}</Text>}
 
