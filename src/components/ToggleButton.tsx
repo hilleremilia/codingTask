@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Color, Gutter, Layout } from '../style/settings';
 

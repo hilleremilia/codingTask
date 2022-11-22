@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Document } from '../types/documents';

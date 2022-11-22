@@ -1,3 +1,4 @@
+import React from 'react';
 import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native';
 import { Document } from '../types/documents';
 import { Gutter } from '../style/settings';

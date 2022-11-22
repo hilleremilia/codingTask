@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -41,10 +42,10 @@ export const Documents = () => {
           key={key}
           isActive={tags && checkTagExists(key, tags)}
           id={key}
-          onPress={onTagPress}
+          onPress={() => manageTags(key)}
         />
       )),
-    [tagNames]
+    [tagNames, tags]
   );
 
   const renderSortKeys = useMemo(
@@ -55,22 +56,14 @@ export const Documents = () => {
           key={key}
           isActive={sortKey === key}
           id={key}
-          onPress={onSortKeyPress}
+          onPress={() => setSortKey(key)}
         />
       )),
-    [keys]
+    [keys, sortKey]
   );
-
-  const onTagPress = (tag: string) => {
-    manageTags(tag);
-  };
 
   const onSortDirectionPress = (id: SortDirection) => {
     setSortDirection(id);
-  };
-
-  const onSortKeyPress = (id: SortKeys) => {
-    setSortKey(id);
   };
 
   const onInputValueChange = (value: string) => {
