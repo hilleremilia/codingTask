@@ -1,4 +1,6 @@
 # codingTask
+## Description
+The project is a small mobile app which allows the user to browse documents. Documents are displayed in a list. The user can filter the results, as well as sort them, using the provided sort setting and also limit the results to selected tags. 
 
 ## Running
 Run the following commands to install dependencies:
