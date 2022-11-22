@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   FlatList,
   ListRenderItem,
+  Platform,
   StyleSheet,
   Text,
   View
@@ -16,8 +17,12 @@ import { useFilter } from '../hooks/useFilter';
 import { TextInputField } from './TextInputField';
 import { useTagNames } from '../hooks/useTagNames';
 import { useTags } from '../hooks/useTags';
+import { useMemo } from 'react';
 
-const URL = 'http://localhost:3000/documents';
+const URL =
+  Platform.OS === 'android'
+    ? 'http://10.0.2.2:3000/documents'
+    : 'http://localhost:3000/documents';
 
 const keys = [SortKeys.ORIGIN, SortKeys.PRIORITY];
 
@@ -29,6 +34,20 @@ export const List = () => {
   const { filteredData, setFilterValue } = useFilter(sortedData);
   const { selectedData, manageTags, checkTagExists, tags } =
     useTags(filteredData);
+
+  const renderTags = useMemo(
+    () =>
+      tagNames.map((key) => (
+        <ToggleButton
+          title={key}
+          key={key}
+          isActive={tags && checkTagExists(key, tags)}
+          id={key}
+          onPress={onTagPress}
+        />
+      )),
+    [tagNames]
+  );
 
   if (loading) {
     return <ActivityIndicator style={styles.container} />;
@@ -58,17 +77,6 @@ export const List = () => {
         isActive={sortKey === key}
         id={key}
         onPress={onSortKeyPress}
-      />
-    ));
-
-  const renderTags = () =>
-    tagNames.map((key) => (
-      <ToggleButton
-        title={key}
-        key={key}
-        isActive={tags && checkTagExists(key, tags)}
-        id={key}
-        onPress={onTagPress}
       />
     ));
 
@@ -117,14 +125,18 @@ export const List = () => {
       <View style={styles.buttonContainer}>{renderSortKeys()}</View>
 
       <Text style={styles.sectionHeader}>Select tags</Text>
-      <View style={styles.buttonContainer}>{renderTags()}</View>
+      <View style={styles.buttonContainer}>{renderTags}</View>
 
       {!selectedData?.length ? (
         <View style={[styles.container, styles.error]}>
           <Text>There are no documents found.</Text>
         </View>
       ) : (
-        <FlatList data={selectedData} renderItem={renderListItem} />
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={selectedData}
+          renderItem={renderListItem}
+        />
       )}
     </View>
   );
@@ -148,5 +160,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  list: {
+    paddingBottom: Gutter.OUTER
   }
 });

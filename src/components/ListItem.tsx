@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Document } from '../types/documents';
 import { Color, Gutter, Layout, typography } from '../style/settings';
@@ -15,13 +15,16 @@ export const ListItem: FC<Props> = ({
   showBottomBorder,
   document: { title, publication_date, priority, origin, tags }
 }) => {
-  const renderTags = () =>
-    tags?.map((tag, index) => (
-      <Text key={tag}>
-        {tag}
-        {index + 1 !== tags.length ? ', ' : ''}
-      </Text>
-    ));
+  const renderTags = useMemo(
+    () =>
+      tags?.map((tag, index) => (
+        <Text key={tag}>
+          {tag}
+          {index + 1 !== tags.length ? ', ' : ''}
+        </Text>
+      )),
+    [tags]
+  );
 
   return (
     <View
@@ -39,7 +42,7 @@ export const ListItem: FC<Props> = ({
 
       {!!origin && <Text>{`Origin: ${origin}`}</Text>}
 
-      <View style={styles.tags}>{!!tags && renderTags()}</View>
+      <View style={styles.tags}>{!!tags && renderTags}</View>
     </View>
   );
 };
